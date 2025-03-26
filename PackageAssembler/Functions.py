@@ -18,7 +18,7 @@ class PackageInfoCollector:
         self.deps = None
         self.install_files = None
         self.is_native = None
-        self.debian_directory = "test"
+        self.debian_directory = "debian"
 
     def get_input(self, prompt, help_message):
         """Ask for user input."""
