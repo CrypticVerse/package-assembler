@@ -67,7 +67,6 @@ def create():
         elif is_native is False:
             f.write("3.0 (quilt)\n")
         else:
-            print("No option selected! Tell us how you did this! This breaks the system ;) (Report @ github repo listed in deb package)")
             sys.exit(1)
 
     subprocess.run(f"export DEBEMAIL={user_email}", shell=True, check=True)
