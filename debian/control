@@ -1,0 +1,15 @@
+Source: package-assembler
+Section: misc
+Priority: optional
+Maintainer: Luka Kubat <crypticversemc@gmail.com>
+Build-Depends: debhelper-compat (= 13), python3-all, dh-python
+Rules-Requires-Root: no
+Standards-Version: 4.7.2
+
+Package: package-assembler
+Architecture: all
+Description: CLI tool to create necessary files for a Debian package
+ Used to create/modify Debian package metadata files in order
+ to create a project.
+Depends: ${misc:Depends}, ${python3:Depends}, ${shlibs:Depends}, devscipts
+Recommends: dput | dupload
