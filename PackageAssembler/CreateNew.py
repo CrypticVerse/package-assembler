@@ -1,7 +1,12 @@
-import glob, os, subprocess, sys
+"""Module to create a new debian package"""
+import glob
+import os
+import subprocess
+import sys
 from PackageAssembler.Functions import PackageInfoCollector
 
 def create():
+    """Creates a new package"""
     collector = PackageInfoCollector()
 
     collector.collect_info()
@@ -19,7 +24,7 @@ def create():
 
     subprocess.run(f"mkdir -p {debian_directory}/source && touch {debian_directory}/changelog", shell=True, check=True)
     print(is_native)
-    if is_native == False:
+    if is_native is False:
         print("Finding upstream source...")
         source = os.path.join("..", "*.orig.tar.*")
         pattern = glob.glob(source)
@@ -36,30 +41,30 @@ def create():
                 print("Invalid input. Exiting.")
                 sys.exit(1)
 
-    with open(f"{debian_directory}/control", "w") as f:
+    with open(f"{debian_directory}/control", encoding="utf-8") as f:
         print("Writing control file...")
         f.write(f"Source: {package_name}\n")
-        f.write(f"Priority: optional\n")
+        f.write("Priority: optional\n")
         f.write(f"Maintainer: {user_name} <{user_email}>\n")
         f.write(f"Build-Depends: debhelper-compat (= 13), {build_depends}\n")
-        f.write(f"Standards-Version: 4.7.2\n\n")
+        f.write("Standards-Version: 4.7.2\n\n")
         f.write(f"Package: {package_name}\n")
         f.write(f"Architecture: {arch}\n")
         f.write(f"Depends: {deps}\n")
-    with open(f"{debian_directory}/install", "w") as f:
+    with open(f"{debian_directory}/install", encoding="utf-8") as f:
         for file, path in install_files:
             f.write(f"{file} {path}\n")
 
-    with open(f"{debian_directory}/rules", "w") as f:
+    with open(f"{debian_directory}/rules", encoding="utf-8") as f:
         print("Writing rules file...")
         f.write("#!/usr/bin/make -f\n\n")
         f.write("%:\n")
         f.write("\tdh $@\n")
-    with open(f"{debian_directory}/source/format", "w") as f:
+    with open(f"{debian_directory}/source/format", encoding="utf-8") as f:
         print("Writing source...")
-        if is_native == True:
+        if is_native is True:
             f.write("3.0 (native)\n")
-        elif is_native == False:
+        elif is_native is False:
             f.write("3.0 (quilt)\n")
         else:
             print("No option selected! Tell us how you did this! This breaks the system ;) (Report @ github repo listed in deb package)")

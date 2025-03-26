@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-
-import sys, argparse
+"""Main execuatble file for the package assembler"""
+import sys
+import argparse
 import PackageAssembler.CreateNew
 import PackageAssembler.NewVersion
 
 def main():
+    """Runs the package assembler"""
     msg = "This is the program to assemble debian packages"
     parser = argparse.ArgumentParser(description=msg)
     parser.add_argument("-c", "--create", help = "Create a new package", action = "store_true")

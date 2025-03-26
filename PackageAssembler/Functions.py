@@ -1,11 +1,13 @@
+"""Misc functions and questions during the package creation/modification process"""
 import subprocess
 import sys
 
 class PackageInfoCollector:
+    """Collect all necessary information to create a Debian package."""
     def __init__(self):
         # Initialize with default values
         self.valid_archs = subprocess.run(
-            ["dpkg-architecture", "-L"], stdout=subprocess.PIPE
+            ["dpkg-architecture", "-L"], check=True, stdout=subprocess.PIPE
         ).stdout.decode().split("\n")
         self.package_name = None
         self.package_version = None
@@ -18,30 +20,31 @@ class PackageInfoCollector:
         self.is_native = None
         self.debian_directory = "test"
 
-    def get_input(self, prompt, help):
+    def get_input(self, prompt, help_message):
         """Ask for user input."""
         while True:
             user = input(prompt)
             if user in ['?', 'help', ' ']:
-                print(help)
+                print(help_message)
             elif user in ['exit', 'quit', 'abort']:
                 print("Exiting...")
                 sys.exit()
             else:
                 return user
 
-    def get_architecture(self, prompt, help):
+    def get_architecture(self, prompt, help_message):
         """Get the architecture of the package."""
         while True:
-            arch = self.get_input(prompt, help)
+            arch = self.get_input(prompt, help_message)
             if arch in self.valid_archs or arch == 'any':
                 return arch
             else:
                 print("Invalid architecture. Please try again.")
 
-    def is_native_package(self, prompt, help):
+    def is_native_package(self, prompt, help_message):
+        """Ask if the package is native or non-native."""
         while True:
-            is_native_pkg = self.get_input(prompt, help)
+            is_native_pkg = self.get_input(prompt, help_message)
             if is_native_pkg in ['yes', 'y', 'true']:
                 self.is_native = True
                 return is_native_pkg
