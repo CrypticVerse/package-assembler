@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+"""Main execuatble file for the package assembler"""
+import sys
+import argparse
+import PackageAssembler.CreateNew
+import PackageAssembler.NewVersion
+
+def main():
+    """Runs the package assembler"""
+    msg = "This is the program to assemble debian packages"
+    parser = argparse.ArgumentParser(description=msg)
+    parser.add_argument("-c", "--create", help = "Create a new package", action = "store_true")
+    parser.add_argument("-n", "--new-version", help = "Create a new version of the package", action = "store_true")
+    parser.add_argument("-v", "--version", help = "Get program version", action = "store_true")
+
+    args = parser.parse_args()
+
+    if args.create:
+        print("Creating a new package")
+        PackageAssembler.CreateNew.create()
+    elif args.new_version:
+        print("Creating a new version of the package")
+        PackageAssembler.NewVersion.new_version()
+    elif args.version:
+        print("Package Assebler 1.0.0")
+    else:
+        parser.print_help()
+
+    sys.exit(1)
+
+if __name__ == "__main__":
+    main()
